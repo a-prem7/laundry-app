@@ -136,7 +136,7 @@ const HomeScreen = () => {
     },
   ];
   return (
-    <ScrollView style={{ backgroundColor: "DCDCDC", flex: 1, marginTop: 50 }}>
+    <ScrollView style={{ backgroundColor: "808080", flex: 1, marginTop: 50 }}>
       <View style={{ flexDirection: "row", alignItems: "center", padding: 10 }}>
         <MaterialIcons name="location-on" size={30} color="#fd5c63" />
         <View>

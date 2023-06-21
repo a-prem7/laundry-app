@@ -22,9 +22,40 @@ const DressItem = ({ item }) => {
           />
         </View>
 
-        <View></View>
+        <View>
+          <Text
+            style={{
+              width: 83,
+              fontSize: 17,
+              fontWeight: "500",
+              marginBottom: 7,
+            }}
+          >
+            {item.name}
+          </Text>
+          <Text style={{ width: 60, color: "gray", fontSize: 15 }}>
+            ${item.price}
+          </Text>
+        </View>
 
-        <Pressable></Pressable>
+        <Pressable style={{ width: 80 }}>
+          <Text
+            style={{
+              borderColor: "gray",
+              borderRadius: 4,
+              borderWidth: 0.8,
+              marginVertical: 10,
+              color: "#088F8F",
+              textAlign: "center",
+              padding: 5,
+              fontSize: 17,
+              fontWeight: "bold",
+            }}
+          >
+            {" "}
+            Add{" "}
+          </Text>
+        </Pressable>
       </Pressable>
     </View>
   );
