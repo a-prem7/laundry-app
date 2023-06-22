@@ -17,7 +17,16 @@ import { SliderBox } from "react-native-image-slider-box";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 import DressItem from "../components/DressItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../ProductReducer";
 const HomeScreen = () => {
+  const cart = useSelector((state) => state.cart.cart);
+  const [items, setItems] = useState([]);
+  const total = cart
+    .map((item) => item.quantity * item.price)
+    .reduce((curr, prev) => curr + prev, 0);
+
+  console.log(cart);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     "we are loading your location"
   );
@@ -84,6 +93,17 @@ const HomeScreen = () => {
       }
     }
   };
+  const product = useSelector((state) => state.product).product;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (product.length > 0) return;
+
+    const fetchProducts = () => {
+      services.map((service) => dispatch(getProducts(service)));
+    };
+    fetchProducts();
+  }, []);
+  console.log(product);
   const services = [
     {
       id: "0",
@@ -136,44 +156,85 @@ const HomeScreen = () => {
     },
   ];
   return (
-    <ScrollView style={{ backgroundColor: "808080", flex: 1, marginTop: 50 }}>
-      <View style={{ flexDirection: "row", alignItems: "center", padding: 10 }}>
-        <MaterialIcons name="location-on" size={30} color="#fd5c63" />
-        <View>
-          <Text style={{ fontSize: 18, fontWeight: "600" }}>Home</Text>
-          <Text>{displayCurrentAddress}</Text>
+    <>
+      <ScrollView style={{ backgroundColor: "808080", flex: 1, marginTop: 50 }}>
+        <View
+          style={{ flexDirection: "row", alignItems: "center", padding: 10 }}
+        >
+          <MaterialIcons name="location-on" size={30} color="#fd5c63" />
+          <View>
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>Home</Text>
+            <Text>{displayCurrentAddress}</Text>
+          </View>
+          <Pressable style={{ marginLeft: "auto", marginright: 7 }}>
+            <Image
+              style={{ width: 40, height: 40, borderRadius: 20 }}
+              source={{
+                uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gl-7b3GPvpgRQImJt5lqkb1O8VQgxkwjQEWqWY4A=s64-c-mo",
+              }}
+            />
+          </Pressable>
         </View>
-        <Pressable style={{ marginLeft: "auto", marginright: 7 }}>
-          <Image
-            style={{ width: 40, height: 40, borderRadius: 20 }}
-            source={{
-              uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gl-7b3GPvpgRQImJt5lqkb1O8VQgxkwjQEWqWY4A=s64-c-mo",
-            }}
-          />
-        </Pressable>
-      </View>
-      <View
-        style={{
-          padding: 10,
-          margin: 10,
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderWidth: 0.8,
-          borderColor: "#C0C0C0",
-          borderRadius: 7,
-        }}
-      >
-        <TextInput placeholder="Search for items or More" />
-        <Feather name="search" size={24} color="#fd5c63" />
-      </View>
-      <Carousel />
-      <Services />
+        <View
+          style={{
+            padding: 10,
+            margin: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderWidth: 0.8,
+            borderColor: "#C0C0C0",
+            borderRadius: 7,
+          }}
+        >
+          <TextInput placeholder="Search for items or More" />
+          <Feather name="search" size={24} color="#fd5c63" />
+        </View>
+        <Carousel />
+        <Services />
 
-      {services.map((item, index) => (
-        <DressItem item={item} key={index} />
-      ))}
-    </ScrollView>
+        {product.map((item, index) => (
+          <DressItem item={item} key={index} />
+        ))}
+      </ScrollView>
+
+      {total === 0 ? null : (
+        <Pressable
+          style={{
+            backgroundColor: "#088F8F",
+            padding: 10,
+            marginBottom: 40,
+            margin: 15,
+            borderRadius: 7,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <Text style={{ fontSize: 17, fontWeight: "600", color: "white" }}>
+              {cart.length} items | $ {total}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: "400",
+                color: "white",
+                marginVertical: 6,
+              }}
+            >
+              extra charges might apply
+            </Text>
+          </View>
+
+          <Pressable onPress={() => navigation.navigate("PickUp")}>
+            <Text style={{ fontSize: 17, fontWeight: "600", color: "white" }}>
+              Proceed to pickup
+            </Text>
+          </Pressable>
+        </Pressable>
+      )}
+    </>
   );
 };
 
