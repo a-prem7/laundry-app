@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Alert,
   SafeAreaView,
+  Alert,
   Pressable,
   Image,
   TextInput,
   ScrollView,
 } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SliderBox } from "react-native-image-slider-box";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 import DressItem from "../components/DressItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../ProductReducer";
 import { useNavigation } from "@react-navigation/native";
+import { collection, getDoc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cart);
   const [items, setItems] = useState([]);
@@ -27,24 +29,21 @@ const HomeScreen = () => {
     .map((item) => item.quantity * item.price)
     .reduce((curr, prev) => curr + prev, 0);
   const navigation = useNavigation();
-
   console.log(cart);
-  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
+  const [displayCurrentAddress, setdisplayCurrentAddress] = useState(
     "we are loading your location"
   );
-  const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
-
+  const [locationServicesEnabled, setlocationServicesEnabled] = useState(false);
   useEffect(() => {
-    checkIfLocationIsEnabled();
+    checkIfLocationEnabled();
     getCurrentLocation();
   }, []);
-
-  const checkIfLocationIsEnabled = async () => {
+  const checkIfLocationEnabled = async () => {
     let enabled = await Location.hasServicesEnabledAsync();
     if (!enabled) {
       Alert.alert(
         "Location services not enabled",
-        "Please enable location service",
+        "Please enable the location services",
         [
           {
             text: "Cancel",
@@ -56,17 +55,16 @@ const HomeScreen = () => {
         { cancelable: false }
       );
     } else {
-      setLocationServicesEnabled(enabled);
+      setlocationServicesEnabled(enabled);
     }
   };
-
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
 
     if (status !== "granted") {
       Alert.alert(
         "Permission denied",
-        "Please allow app to use location services",
+        "allow the app to use the location services",
         [
           {
             text: "Cancel",
@@ -80,7 +78,7 @@ const HomeScreen = () => {
     }
 
     const { coords } = await Location.getCurrentPositionAsync();
-
+    // console.log(coords)
     if (coords) {
       const { latitude, longitude } = coords;
 
@@ -89,19 +87,26 @@ const HomeScreen = () => {
         longitude,
       });
 
+      // console.log(response)
+
       for (let item of response) {
-        let address = `${item.name} ${item.street}, ${item.city}, ${item.postalCode}`;
-        setDisplayCurrentAddress(address);
+        let address = `${item.name} ${item.city} ${item.postalCode}`;
+        setdisplayCurrentAddress(address);
       }
     }
   };
-  const product = useSelector((state) => state.product).product;
+  const product = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
   useEffect(() => {
     if (product.length > 0) return;
 
-    const fetchProducts = () => {
-      services.map((service) => dispatch(getProducts(service)));
+    const fetchProducts = async () => {
+      const colRef = collection(db, "types");
+      const docsSnap = await getDocs(colRef);
+      docsSnap.forEach((doc) => {
+        items.push(doc.data());
+      });
+      items?.map((service) => dispatch(getProducts(service)));
     };
     fetchProducts();
   }, []);
@@ -159,7 +164,10 @@ const HomeScreen = () => {
   ];
   return (
     <>
-      <ScrollView style={{ backgroundColor: "808080", flex: 1, marginTop: 50 }}>
+      <ScrollView
+        style={{ backgroundColor: "#F0F0F0", flex: 1, marginTop: 50 }}
+      >
+        {/* Location and Profile */}
         <View
           style={{ flexDirection: "row", alignItems: "center", padding: 10 }}
         >
@@ -168,15 +176,21 @@ const HomeScreen = () => {
             <Text style={{ fontSize: 18, fontWeight: "600" }}>Home</Text>
             <Text>{displayCurrentAddress}</Text>
           </View>
-          <Pressable style={{ marginLeft: "auto", marginright: 7 }}>
+
+          <Pressable
+            onPress={() => navigation.navigate("Profile")}
+            style={{ marginLeft: "auto", marginRight: 7 }}
+          >
             <Image
               style={{ width: 40, height: 40, borderRadius: 20 }}
               source={{
-                uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gl-7b3GPvpgRQImJt5lqkb1O8VQgxkwjQEWqWY4A=s64-c-mo",
+                uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gl-7b3GPvpgRQImJt5lqkb1O8VQgxkwjQEWqWY4A=s32-c-mo",
               }}
             />
           </Pressable>
         </View>
+
+        {/* Search Bar */}
         <View
           style={{
             padding: 10,
@@ -192,9 +206,14 @@ const HomeScreen = () => {
           <TextInput placeholder="Search for items or More" />
           <Feather name="search" size={24} color="#fd5c63" />
         </View>
+
+        {/* Image Carousel */}
         <Carousel />
+
+        {/* Services Component */}
         <Services />
 
+        {/* Render all the Products */}
         {product.map((item, index) => (
           <DressItem item={item} key={index} />
         ))}
