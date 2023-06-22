@@ -13,6 +13,7 @@ import { useState } from "react";
 import HorizontalDatepicker from "@awrminkhodaei/react-native-horizontal-datepicker";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+
 const PickUpScreen = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const cart = useSelector((state) => state.cart.cart);
@@ -223,7 +224,7 @@ const PickUpScreen = () => {
                 marginVertical: 6,
               }}
             >
-              extra charges might apply
+              Extra charges might apply
             </Text>
           </View>
 
