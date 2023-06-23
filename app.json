@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "laundry-app",
+    "name": "Laundry App",
     "slug": "laundry-app",
+    "description": "The laundry app is a convenient and user-friendly mobile application designed to simplify and streamline the process of doing laundry. With this app, users can easily schedule laundry pickups and deliveries, track the status of their laundry, and manage their laundry preferences.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

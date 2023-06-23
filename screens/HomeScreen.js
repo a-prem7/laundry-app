@@ -115,7 +115,7 @@ const HomeScreen = () => {
     {
       id: "0",
       image: "https://cdn-icons-png.flaticon.com/128/4643/4643574.png",
-      name: "shirt",
+      name: "Shirt",
       quantity: 0,
       price: 10,
     },
@@ -129,14 +129,14 @@ const HomeScreen = () => {
     {
       id: "12",
       image: "https://cdn-icons-png.flaticon.com/128/9609/9609161.png",
-      name: "dresses",
+      name: "Dresses",
       quantity: 0,
       price: 10,
     },
     {
       id: "13",
       image: "https://cdn-icons-png.flaticon.com/128/599/599388.png",
-      name: "jeans",
+      name: "Jeans",
       quantity: 0,
       price: 10,
     },
@@ -150,7 +150,7 @@ const HomeScreen = () => {
     {
       id: "15",
       image: "https://cdn-icons-png.flaticon.com/128/3345/3345397.png",
-      name: "shorts",
+      name: "Shorts",
       quantity: 0,
       price: 10,
     },
@@ -171,7 +171,7 @@ const HomeScreen = () => {
         <View
           style={{ flexDirection: "row", alignItems: "center", padding: 10 }}
         >
-          <MaterialIcons name="location-on" size={30} color="#fd5c63" />
+          <MaterialIcons name="location-on" size={30} color="#4021bf" />
           <View>
             <Text style={{ fontSize: 18, fontWeight: "600" }}>Home</Text>
             <Text>{displayCurrentAddress}</Text>
@@ -204,7 +204,7 @@ const HomeScreen = () => {
           }}
         >
           <TextInput placeholder="Search for items or More" />
-          <Feather name="search" size={24} color="#fd5c63" />
+          <Feather name="search" size={24} color="#4021bf" />
         </View>
 
         {/* Image Carousel */}
@@ -244,7 +244,7 @@ const HomeScreen = () => {
                 marginVertical: 6,
               }}
             >
-              extra charges might apply
+              Extra charges might apply
             </Text>
           </View>
 

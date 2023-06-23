@@ -184,7 +184,7 @@ const CartScreen = () => {
                     Item Total
                   </Text>
                   <Text style={{ fontSize: 18, fontWeight: "400" }}>
-                    ₹{total}
+                    ${total}
                   </Text>
                 </View>
 
@@ -216,7 +216,7 @@ const CartScreen = () => {
                   <Text
                     style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
                   >
-                    Free Delivery on Your order
+                    Free Delivery on Your Order
                   </Text>
                 </View>
 
@@ -240,7 +240,7 @@ const CartScreen = () => {
                   <Text
                     style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
                   >
-                    selected Date
+                    Selected Date
                   </Text>
                   <Text
                     style={{
@@ -288,7 +288,7 @@ const CartScreen = () => {
                   <Text
                     style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
                   >
-                    selected Pick Up Time
+                    Selected Pick Up Time
                   </Text>
 
                   <Text
@@ -322,7 +322,7 @@ const CartScreen = () => {
                     To Pay
                   </Text>
                   <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    {total + 95}
+                    {total}
                   </Text>
                 </View>
               </View>

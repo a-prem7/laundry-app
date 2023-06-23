@@ -50,7 +50,7 @@ const services = [
   {
     id: "0",
     image: "https://cdn-icons-png.flaticon.com/128/4643/4643574.png",
-    name: "shirt",
+    name: "Shirt",
     quantity: 0,
     price: 10,
   },
@@ -64,14 +64,14 @@ const services = [
   {
     id: "12",
     image: "https://cdn-icons-png.flaticon.com/128/9609/9609161.png",
-    name: "dresses",
+    name: "Dresses",
     quantity: 0,
     price: 10,
   },
   {
     id: "13",
     image: "https://cdn-icons-png.flaticon.com/128/599/599388.png",
-    name: "jeans",
+    name: "Jeans",
     quantity: 0,
     price: 10,
   },
@@ -85,7 +85,7 @@ const services = [
   {
     id: "15",
     image: "https://cdn-icons-png.flaticon.com/128/3345/3345397.png",
-    name: "shorts",
+    name: "Shorts",
     quantity: 0,
     price: 10,
   },
